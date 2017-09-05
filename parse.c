@@ -2,7 +2,6 @@
 
 int is_shorted(t_intlst *lst)
 {
-  printf("is_shorted\n");
   int tmp = INT_MIN;
 
   while (lst)
@@ -18,7 +17,6 @@ int is_shorted(t_intlst *lst)
 
 void read_inst(t_env *env, char *inst)
 {
-    printf("doom inst = %s\n", inst);
   if(!(ft_strcmp(inst, "sa")))
     swap(env->l_a);
   else if(!(ft_strcmp(inst, "sb")))
@@ -29,9 +27,9 @@ void read_inst(t_env *env, char *inst)
     swap(env->l_b);
   }
   else if(!(ft_strcmp(inst, "pa")))
-    push(env->l_a, env->l_b, env->beginLstA, env->beginLstB);
+    push(&env->l_a, &env->l_b);
   else if(!(ft_strcmp(inst, "pb")))
-    push(env->l_b, env->l_a, env->beginLstA, env->beginLstB);
+    push(&env->l_b, &env->l_a);
   else if(!(ft_strcmp(inst, "ra")))
     rotate_up(env->l_a);
   else if(!(ft_strcmp(inst, "rb")))
@@ -59,41 +57,34 @@ void analyse_mode(t_env *env, int argc, char **argv)
 
   line = NULL;
   fd = open(line, O_RDONLY);
-  while (get_next_line(&line, fd))
+  while (get_next_line(fd, &line))
   {
     //solve();
     free(line);
   }
-
 }
 
 void checker_mode(t_env *env, int argc, char **argv)
 {
-//  int a;
   int fd;
   char *line;
 
- line = NULL;
-// fd = open(line, O_RDONLY);
-
+  line = NULL;
   fd = 0;
-//  a = 2;
-//  while (a < argc)
-  while (get_next_line(&line, fd))
+  while (get_next_line(fd, &line))
   {
-    printf("line = %s\n", line);
     read_inst(env, line);
-//    ++a;
     free(line);
     if (is_shorted(env->l_a))
       exit (1);
-    printf("srlsy?\n");
+  print_lsts(env->l_a, env->l_b);
   }
 }
 
 void parse_args(t_env *env, int argc, char **argv)
 {
-  print_lst(env->l_a);
+  print_lsts(env->l_a, env->l_b);
+//  print_lst(env->l_b);
   if (argv[1][1] == 'c')
     checker_mode(env, argc, argv);
   else if (argv[1][1] == 'a')

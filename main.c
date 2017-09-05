@@ -1,9 +1,5 @@
 #include "pushswap.h"
 
-/* BINARY MAGIC NUMBER :0xea83f3
-Not already added on *.cor binary
-*/
-
 t_intlst    *create_node(int nb, int mode)
 {
     t_intlst    *newNode;
@@ -62,16 +58,23 @@ void        rotate_up(t_intlst *lst)
 A->firstStack
 B->SecONe
 We can alternate both*/
-void        push(t_intlst *stackA, t_intlst *stackB, t_intlst *beginLstA, t_intlst *beginLstB)
+void        push(t_intlst **pushTo, t_intlst **pushFrom)
 {
+  t_intlst *tmp;
   t_intlst *newLst;
   int movingNb;
 
-  movingNb = stackA->nb;
-  stackA = stackA->next;
-  newLst = create_node(movingNb, 1);
-  newLst->next = stackB;
-  stackB = newLst;
+  if (pushFrom[0])
+  {
+    movingNb = pushFrom[0]->nb;
+    tmp = pushFrom[0];
+    *pushFrom = pushFrom[0]->next;
+    free(tmp);
+    newLst = create_node(movingNb, 1);
+    newLst->next = *pushTo;
+    newLst->previous = NULL;
+    *pushTo = newLst;
+  }
 }
 
 /*Replace stackA->nb by stackB->nb, both sides*/
@@ -87,6 +90,14 @@ void        swap(t_intlst *lst)
     }
 }
 
+void        print_lsts(t_intlst *lstA, t_intlst *lstB)
+{
+  printf("stackA :\n");
+  print_lst(lstA);
+  printf("stackB :\n");
+  print_lst(lstB);
+}
+
 void        print_lst(t_intlst *lst)
 {
     int a;
@@ -95,7 +106,7 @@ void        print_lst(t_intlst *lst)
 
     a = 0;
     tmp = lst;
-    printf("Lst :\n");
+  //  printf("Lst :\n");
     while (tmp)
     {
         printf("%d - nb = %d\n", a, tmp->nb);
@@ -142,7 +153,7 @@ t_intlst  *create_intlst(int argc, char **argv)
     }
     return (beginLst);
 }
-
+/*
 t_intlst*   create_emptylst(int size)
 {
   t_intlst *beginLst;
@@ -169,24 +180,18 @@ t_intlst*   create_emptylst(int size)
   }
   return (beginLst);
 }
-
+*/
 int main(int argc, char **argv)
 {
     t_env env;
 
-    //l_a = NULL;
     if (argc < 2)
         printf("Not enoth args\n");
     else
     {
       env.l_a = create_intlst(argc, argv);
-      print_lst(env.l_a);
-      env.l_b = create_emptylst(argc - 1);
       if (*argv[1] == '-')
         parse_args(&env, argc, argv);
     }
-    print_lst(env.l_a);
-    swap(env.l_a);
-    print_lst(env.l_a);
     return 0;
 }
