@@ -15,7 +15,6 @@ int is_shorted(t_intlst *lst, int sizeSort)
     lst = lst->next;
     ++a;
   }
-  printf("shorted a = %d size = %d\n", a, sizeSort);
   return (a == sizeSort ? 1 : 0);
 }
 
@@ -44,13 +43,13 @@ void read_inst(t_env *env, char *inst)
     rotate_up(&env->l_b);
   }
   else if(!(ft_strcmp(inst, "rra")))
-    rotate_down(env->l_a);
+    rotate_down(&env->l_a);
   else if(!(ft_strcmp(inst, "rrb")))
-    rotate_down(env->l_b);
-  else if(!(ft_strcmp(inst, "rrb")))
+    rotate_down(&env->l_b);
+  else if(!(ft_strcmp(inst, "rrr")))
   {
-    rotate_down(env->l_a);
-    rotate_down(env->l_b);
+    rotate_down(&env->l_a);
+    rotate_down(&env->l_b);
   }
 }
 

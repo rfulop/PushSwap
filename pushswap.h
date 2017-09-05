@@ -28,7 +28,7 @@ typedef struct          s_env
 /*Build functions*/
 t_intlst *create_emptylst(int size);
 t_intlst *create_intlst(t_env *env, int argc, char **argv);
-t_intlst *create_node(int nb, int mode);
+t_intlst *create_node(int nb);
 /*Parse functions*/
 void parse_args(t_env *env, int argc, char **argv);
 void checker_mode(t_env*env, int argc, char **argv);
@@ -40,7 +40,7 @@ int is_shorted(t_intlst *lst, int sizeSort);
 void swap(t_intlst *lst);
 void push(t_intlst **stackA, t_intlst **stackB);
 void rotate_up(t_intlst **lst);
-void rotate_down(t_intlst *lst);
+void rotate_down(t_intlst **lst);
 
 /*Debug functions*/
 void print_lst(t_intlst *lst);

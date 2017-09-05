@@ -1,12 +1,10 @@
 #include "pushswap.h"
 
-t_intlst    *create_node(int nb, int mode)
+t_intlst    *create_node(int nb)
 {
     t_intlst    *newNode;
 
     if (!(newNode = (t_intlst*)malloc(sizeof(t_intlst))))
-    if (mode)
-        exit (0);
     printf("nb = %d\n", nb);
     newNode->nb = nb;
     newNode->previous = NULL;
@@ -18,22 +16,26 @@ t_intlst    *create_node(int nb, int mode)
 By down rotation we mean that the first element on stackA becomes the last one
 And the lastone becomes the first one
   */
-void        rotate_down(t_intlst *lst)
+void        rotate_down(t_intlst **lst)
 {
-  /*
-  int       tmp;
-  t_intlst *firstEl;
-  t_intlst *tmpLst;
-  t_intlst *lastEl;
+  t_intlst *tmp;
+  t_intlst *newLst;
+  int movingNb;
 
-  tmp = lst->nb;
-  lst = lst->next;
-  tmpLst = lst;
-  while (tmpLst)
-    tmpLst = tmpLst->next;
-  tmpLst = lastEl;
-  tmpLst->next = create_node(tmp, 1);
-*/}
+  if (lst[0] && lst[0]->next)
+  {
+    tmp = *lst;
+    while (tmp && tmp->next)
+      tmp = tmp->next;
+    tmp->previous->next = NULL;
+    movingNb = tmp->nb;
+    newLst = create_node(movingNb);
+    newLst->next = lst[0];
+    lst[0]->previous = newLst;
+    *lst = newLst;
+    free(tmp);
+  }
+}
 
 /*We amite we rotate on stackA
 The last element of stackA becomes the first one
@@ -44,13 +46,14 @@ void        rotate_up(t_intlst **lst)
   t_intlst *newLst;
   int movingNb;
 
-  if (lst[0])
+  if (lst[0] && lst[0]->next)
   {
     movingNb = lst[0]->nb;
     tmp = lst[0];
     *lst = lst[0]->next;
+    lst[0]->previous = NULL;
     free(tmp);
-    newLst = create_node(movingNb, 1);
+    newLst = create_node(movingNb);
     tmp = *lst;
     while(tmp && tmp->next)
       tmp = tmp->next;
@@ -75,10 +78,14 @@ void        push(t_intlst **pushTo, t_intlst **pushFrom)
   {
     movingNb = pushFrom[0]->nb;
     tmp = pushFrom[0];
+    if (tmp->next)
+      tmp->next->previous = NULL;
     *pushFrom = pushFrom[0]->next;
     free(tmp);
-    newLst = create_node(movingNb, 1);
+    newLst = create_node(movingNb);
     newLst->next = *pushTo;
+    if (newLst->next)
+      newLst->next->previous = newLst;
     newLst->previous = NULL;
     *pushTo = newLst;
   }
@@ -103,6 +110,7 @@ void        print_lsts(t_intlst *lstA, t_intlst *lstB)
   print_lst(lstA);
   printf("stackB :\n");
   print_lst(lstB);
+  printf("\n");
 }
 
 void        print_lst(t_intlst *lst)
@@ -117,13 +125,13 @@ void        print_lst(t_intlst *lst)
     while (tmp)
     {
         printf("%d - nb = %d\n", a, tmp->nb);
-        tmp = tmp->next;
 //        if (tmp)
 //            last = tmp;
+        tmp = tmp->next;
         ++a;
     }
-    /*
-    printf("\nReverse lst :\n");
+
+/*    printf("\nReverse lst :\n");
     while (last)
     {
         printf("%d - nb = %d\n", a, last->nb);
@@ -145,13 +153,13 @@ t_intlst  *create_intlst(t_env *env, int argc, char **argv)
     {
         if (!newLst)
         {
-            newLst = create_node(atoi(argv[nbArgs]), 1);
+            newLst = create_node(atoi(argv[nbArgs]));
             beginLst = newLst;
             previous = newLst;
         }
         else
         {
-            newLst->next = create_node(atoi(argv[nbArgs]), 1);
+            newLst->next = create_node(atoi(argv[nbArgs]));
             newLst = newLst->next;
             newLst->previous = previous;
             previous = newLst;
@@ -159,7 +167,6 @@ t_intlst  *create_intlst(t_env *env, int argc, char **argv)
         ++nbArgs;
         ++env->sizeSort;
     }
-    printf("size = %d\n", env->sizeSort);
     return (beginLst);
 }
 /*
