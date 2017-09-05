@@ -1,18 +1,22 @@
 #include "pushswap.h"
 
-int is_shorted(t_intlst *lst)
+int is_shorted(t_intlst *lst, int sizeSort)
 {
-  int tmp = INT_MIN;
+  int a;
+  int tmp;
 
+  a = 0;
+  tmp = INT_MIN;
   while (lst)
   {
     if (lst->nb < tmp)
       return (0);
     tmp = lst->nb;
     lst = lst->next;
+    ++a;
   }
-  printf("shorted\n");
-  return (1);
+  printf("shorted a = %d size = %d\n", a, sizeSort);
+  return (a == sizeSort ? 1 : 0);
 }
 
 void read_inst(t_env *env, char *inst)
@@ -31,13 +35,13 @@ void read_inst(t_env *env, char *inst)
   else if(!(ft_strcmp(inst, "pb")))
     push(&env->l_b, &env->l_a);
   else if(!(ft_strcmp(inst, "ra")))
-    rotate_up(env->l_a);
+    rotate_up(&env->l_a);
   else if(!(ft_strcmp(inst, "rb")))
-    rotate_up(env->l_b);
+    rotate_up(&env->l_b);
   else if(!(ft_strcmp(inst, "rr")))
   {
-    rotate_up(env->l_a);
-    rotate_up(env->l_b);
+    rotate_up(&env->l_a);
+    rotate_up(&env->l_b);
   }
   else if(!(ft_strcmp(inst, "rra")))
     rotate_down(env->l_a);
@@ -75,7 +79,7 @@ void checker_mode(t_env *env, int argc, char **argv)
   {
     read_inst(env, line);
     free(line);
-    if (is_shorted(env->l_a))
+    if (is_shorted(env->l_a, env->sizeSort))
       exit (1);
   print_lsts(env->l_a, env->l_b);
   }

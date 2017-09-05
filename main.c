@@ -7,7 +7,8 @@ t_intlst    *create_node(int nb, int mode)
     if (!(newNode = (t_intlst*)malloc(sizeof(t_intlst))))
     if (mode)
         exit (0);
-      newNode->nb = nb;
+    printf("nb = %d\n", nb);
+    newNode->nb = nb;
     newNode->previous = NULL;
     newNode->next = NULL;
     return (newNode);
@@ -37,20 +38,26 @@ void        rotate_down(t_intlst *lst)
 /*We amite we rotate on stackA
 The last element of stackA becomes the first one
 the first element of stackA becomes the last one*/
-void        rotate_up(t_intlst *lst)
+void        rotate_up(t_intlst **lst)
 {
-    int       tmp;
-    t_intlst *firstEl;
-    t_intlst *tmpLst;
-    t_intlst *lastEl;
+  t_intlst *tmp;
+  t_intlst *newLst;
+  int movingNb;
 
-    tmp = lst->nb;
-    lst = lst->next;
-    tmpLst = lst;
-    while (tmpLst)
-      tmpLst = tmpLst->next;
-    lastEl = tmpLst;
-    lastEl->next = create_node(tmp, 1);
+  if (lst[0])
+  {
+    movingNb = lst[0]->nb;
+    tmp = lst[0];
+    *lst = lst[0]->next;
+    free(tmp);
+    newLst = create_node(movingNb, 1);
+    tmp = *lst;
+    while(tmp && tmp->next)
+      tmp = tmp->next;
+    newLst->previous = tmp;
+    newLst->next = NULL;
+    tmp->next = newLst;
+  }
 }
 
 //we admit stackA -> lsta and stackB -> lstb
@@ -125,14 +132,14 @@ void        print_lst(t_intlst *lst)
     }*/
 }
 
-t_intlst  *create_intlst(int argc, char **argv)
+t_intlst  *create_intlst(t_env *env, int argc, char **argv)
 {
     int nbArgs;
     t_intlst *beginLst;
     t_intlst *previous;
     t_intlst *newLst;
 
-    nbArgs = 1;
+    nbArgs = 2;
     newLst = NULL;
     while (nbArgs != argc)
     {
@@ -150,7 +157,9 @@ t_intlst  *create_intlst(int argc, char **argv)
             previous = newLst;
         }
         ++nbArgs;
+        ++env->sizeSort;
     }
+    printf("size = %d\n", env->sizeSort);
     return (beginLst);
 }
 /*
@@ -189,7 +198,8 @@ int main(int argc, char **argv)
         printf("Not enoth args\n");
     else
     {
-      env.l_a = create_intlst(argc, argv);
+      env.sizeSort = 0;
+      env.l_a = create_intlst(&env, argc, argv);
       if (*argv[1] == '-')
         parse_args(&env, argc, argv);
     }
