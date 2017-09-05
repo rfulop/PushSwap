@@ -41,6 +41,10 @@ void swap(t_intlst *lst);
 void push(t_intlst **stackA, t_intlst **stackB);
 void rotate_up(t_intlst **lst);
 void rotate_down(t_intlst **lst);
+void double_swap(t_intlst *lstA, t_intlst *lstB);
+void double_rotate_up(t_intlst **lstA, t_intlst **lstB);
+void double_rotate_down(t_intlst **lstA, t_intlst **lstB);
+
 
 /*Debug functions*/
 void print_lst(t_intlst *lst);

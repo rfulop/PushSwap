@@ -25,10 +25,7 @@ void read_inst(t_env *env, char *inst)
   else if(!(ft_strcmp(inst, "sb")))
     swap(env->l_b);
   else if(!(ft_strcmp(inst, "ss")))
-  {
-    swap(env->l_a);
-    swap(env->l_b);
-  }
+    double_swap(env->l_a, env->l_b);
   else if(!(ft_strcmp(inst, "pa")))
     push(&env->l_a, &env->l_b);
   else if(!(ft_strcmp(inst, "pb")))
@@ -38,19 +35,13 @@ void read_inst(t_env *env, char *inst)
   else if(!(ft_strcmp(inst, "rb")))
     rotate_up(&env->l_b);
   else if(!(ft_strcmp(inst, "rr")))
-  {
-    rotate_up(&env->l_a);
-    rotate_up(&env->l_b);
-  }
+    double_rotate_up(&env->l_a, &env->l_b);
   else if(!(ft_strcmp(inst, "rra")))
     rotate_down(&env->l_a);
   else if(!(ft_strcmp(inst, "rrb")))
     rotate_down(&env->l_b);
   else if(!(ft_strcmp(inst, "rrr")))
-  {
-    rotate_down(&env->l_a);
-    rotate_down(&env->l_b);
-  }
+    double_rotate_down(&env->l_a, &env->l_b);
 }
 
 void analyse_mode(t_env *env, int argc, char **argv)
