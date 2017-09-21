@@ -1,6 +1,6 @@
 #include "pushswap.h"
 
-int is_shorted(t_intlst *lst, int sizeSort)
+int is_shorted(t_intlst *lst)
 {
   int a;
   int tmp;
@@ -15,7 +15,7 @@ int is_shorted(t_intlst *lst, int sizeSort)
     lst = lst->next;
     ++a;
   }
-  return (a == sizeSort ? 1 : 0);
+  return (a);
 }
 
 void read_inst(t_env *env, char *inst)
@@ -69,7 +69,7 @@ void checker_mode(t_env *env, int argc, char **argv)
   {
     read_inst(env, line);
     free(line);
-    if (is_shorted(env->l_a, env->sizeSort))
+    if (is_shorted(env->l_a) == env->sizeSort)
     {
       printf("List is shorted\n");
       exit (1);
