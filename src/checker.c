@@ -9,8 +9,10 @@ int main(int argc, char **argv)
     else
     {
       env.sizeSort = 0;
+      env.nbArgs = 1;
       env.l_a = create_intlst(&env, argc, argv);
-      parse_args(&env, argc, argv);
+      print_lsts(env.l_a, env.l_b);
+      checker_mode(&env, argc, argv);
     }
     return 0;
 }

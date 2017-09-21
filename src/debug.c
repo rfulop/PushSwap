@@ -2,9 +2,9 @@
 
 void        print_lsts(t_intlst *lstA, t_intlst *lstB)
 {
-  printf("stackA :\n");
+  printf("stackA : ");
   print_lst(lstA);
-  printf("stackB :\n");
+  printf("stackB : ");
   print_lst(lstB);
   printf("\n");
 }
@@ -20,12 +20,14 @@ void        print_lst(t_intlst *lst)
   //  printf("Lst :\n");
     while (tmp)
     {
-        printf("%d - nb = %d\n", a, tmp->nb);
+      printf("- %d ", tmp->nb);
+    //    printf("%d - nb = %d\n", a, tmp->nb);
 //        if (tmp)
 //            last = tmp;
         tmp = tmp->next;
         ++a;
     }
+    printf("\n");
 
 /*    printf("\nReverse lst :\n");
     while (last)

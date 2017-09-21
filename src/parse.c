@@ -77,10 +77,3 @@ void checker_mode(t_env *env, int argc, char **argv)
   print_lsts(env->l_a, env->l_b);
   }
 }
-
-void parse_args(t_env *env, int argc, char **argv)
-{
-  print_lsts(env->l_a, env->l_b);
-//  print_lst(env->l_b);
-  checker_mode(env, argc, argv);
-}

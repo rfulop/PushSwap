@@ -19,7 +19,7 @@ t_intlst  *create_intlst(t_env *env, int argc, char **argv)
     t_intlst *previous;
     t_intlst *newLst;
 
-    nbArgs = 1;
+    nbArgs = env->nbArgs;
     newLst = NULL;
     while (nbArgs != argc)
     {
