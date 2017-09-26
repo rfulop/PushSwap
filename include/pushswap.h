@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pushswap.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
+/*   Updated: 2017/09/26 22:54:20 by rfulop           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSHSWAP_H
 # define PUSHSWAP_H
 
@@ -8,6 +20,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <time.h>
+#include "libft.h"
 
 #define A_SMALLER 1
 #define A_BIGGER 0
@@ -38,8 +51,8 @@ t_intlst *create_intlst(t_env *env, int argc, char **argv);
 t_intlst *create_node(int nb);
 /*Parse functions*/
 int parse_args(t_env *env, char **argv);
-void checker_mode(t_env*env, int argc, char **argv);
-void analyse_mode(t_env *env,int argc, char **argv);
+void checker_mode(t_env*env);
+void analyse_mode();
 void read_inst(t_env *env, char *inst);
 int is_shorted(t_intlst *lst);
 

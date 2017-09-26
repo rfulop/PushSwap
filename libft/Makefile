@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rfulop <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: rfulop <rfulop@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/29 03:17:34 by rfulop            #+#    #+#              #
 #    Updated: 2017/05/25 06:03:41 by rfulop           ###   ########.fr        #
@@ -128,22 +128,23 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "\033[37mLinking...\033[0m"
+	@echo "\033[32mLibrary \033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
 	@echo "\033[32mLibrary \033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 	@echo "\033[34mCompilation of \033[36m$(notdir $<)\033[34m done.\033[0m"
 
 clean:
-	rm -fv $(OBJ)
+	@rm -fv $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	@echo "\033[31mObjects files \033[1;31m$(OBJ_NAME)\033[1;0m\033[31m removed.\033[0m"
 
 fclean: clean
-	rm -fv $(NAME)
+	@rm -fv $(NAME)
 	@echo "\033[31mLib \033[1;31m$(NAME)\033[1;0m\033[31m removed.\033[0m"
 
 re: fclean all

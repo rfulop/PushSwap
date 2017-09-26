@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/26 22:48:34 by rfulop            #+#    #+#             */
+/*   Updated: 2017/09/26 22:51:38 by rfulop           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
 int is_shorted(t_intlst *lst)
@@ -44,7 +56,7 @@ void read_inst(t_env *env, char *inst)
     double_rotate_down(&env->l_a, &env->l_b);
 }
 
-void analyse_mode(t_env *env, int argc, char **argv)
+void analyse_mode()
 {
   int fd;
   char *line;
@@ -58,7 +70,7 @@ void analyse_mode(t_env *env, int argc, char **argv)
   }
 }
 
-void checker_mode(t_env *env, int argc, char **argv)
+void checker_mode(t_env *env)
 {
   int fd;
   char *line;

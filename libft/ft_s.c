@@ -17,9 +17,8 @@ void	ft_concat_unicode_s(va_list ap, t_opt *opt, wchar_t *str, int len)
 	int		a;
 
 	a = 0;
-	len = 0;
 	opt->res = NULL;
-	while (str[a])
+	while (str[a] && len)
 	{
 		ft_c_unicode(ap, opt, 'S', str[a]);
 		if (!opt->unicode)
@@ -33,6 +32,7 @@ void	ft_concat_unicode_s(va_list ap, t_opt *opt, wchar_t *str, int len)
 			(int)ft_strlen(opt->tmp));
 		++a;
 		free(opt->tmp);
+		--len;
 	}
 }
 
