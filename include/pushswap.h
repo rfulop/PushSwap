@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
-/*   Updated: 2017/09/26 22:54:20 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/01 05:55:10 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ typedef struct          s_env
 /*Build functions*/
 t_intlst *create_emptylst(int size);
 t_intlst *create_intlst(t_env *env, int argc, char **argv);
-t_intlst *create_node(int nb);
+t_intlst *create_node(t_intlst *begin, char *str);
+t_intlst *create_node_with_int(int nb);
 /*Parse functions*/
 int parse_args(t_env *env, char **argv);
 void checker_mode(t_env*env);
 void analyse_mode();
 void read_inst(t_env *env, char *inst);
 int is_shorted(t_intlst *lst);
+int split_size(char **str);
 
 /*Instructions functions*/
 void swap(t_intlst *lst);
@@ -67,6 +69,7 @@ void double_rotate_down(t_intlst **lstA, t_intlst **lstB);
 
 
 /*Debug functions*/
+void error();
 void print_lst(t_intlst *lst);
 void print_lsts(t_intlst *lstA, t_intlst *lstB);
 

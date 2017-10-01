@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/09/26 22:54:58 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/01 06:01:44 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ int parse_args(t_env *env, char **argv)
 
 int main(int argc, char **argv)
 {
+	int size;
 	t_env env;
+	char **split;
 
 	if (argc < 2)
 		printf("Missing arguments (\"./push_swap -h\" for help)\n");
@@ -132,11 +134,19 @@ int main(int argc, char **argv)
 		env.verboseMode = 0;
 		env.nbMoves = 0;
 		env.nbArgs = parse_args(&env, argv);
-		env.l_a = create_intlst(&env, argc, argv);
+		if (argc == 2 && ft_strlen(argv[1]) > 1)
+		{
+			split = ft_strsplit(argv[1], ' ');
+			size = split_size(split);
+			--env.nbArgs;
+			env.l_a = create_intlst(&env, size, split);
+		}
+		else
+			env.l_a = create_intlst(&env, argc, argv);
 		if (env.verboseMode)
 		{
 			printf("Stack in the beginning : ");
-			print_lst(env.l_a);
+		//	print_lst(env.l_a);
 			printf("\n");
 		}
 		short_stack(&env);

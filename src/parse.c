@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:34 by rfulop            #+#    #+#             */
-/*   Updated: 2017/09/26 22:51:38 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/01 04:46:29 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void read_inst(t_env *env, char *inst)
     rotate_down(&env->l_b);
   else if(!(ft_strcmp(inst, "rrr")))
     double_rotate_down(&env->l_a, &env->l_b);
+  else
+    error();
 }
 
 void analyse_mode()
@@ -81,11 +83,16 @@ void checker_mode(t_env *env)
   {
     read_inst(env, line);
     free(line);
-    if (is_shorted(env->l_a) == env->sizeSort)
-    {
-      printf("List is shorted\n");
-      exit (1);
-    }
-  print_lsts(env->l_a, env->l_b);
   }
+  if (is_shorted(env->l_a) == env->sizeSort)
+  {
+    printf("OK\n");
+    exit (1);
+  }
+  else
+  {
+    printf("KO\n");
+    exit (0);
+  }
+  print_lsts(env->l_a, env->l_b);
 }

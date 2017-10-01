@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:30 by rfulop            #+#    #+#             */
-/*   Updated: 2017/09/26 22:48:31 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/09/30 18:40:15 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void        rotate_down(t_intlst **lst)
       tmp = tmp->next;
     tmp->previous->next = NULL;
     movingNb = tmp->nb;
-    newLst = create_node(movingNb);
+    newLst = create_node_with_int(movingNb);
     newLst->next = lst[0];
     lst[0]->previous = newLst;
     *lst = newLst;
@@ -64,7 +64,7 @@ void        rotate_up(t_intlst **lst)
     *lst = lst[0]->next;
     lst[0]->previous = NULL;
     free(tmp);
-    newLst = create_node(movingNb);
+    newLst = create_node_with_int(movingNb);
     tmp = *lst;
     while(tmp && tmp->next)
       tmp = tmp->next;
@@ -88,7 +88,7 @@ void        push(t_intlst **pushTo, t_intlst **pushFrom)
       tmp->next->previous = NULL;
     *pushFrom = pushFrom[0]->next;
     free(tmp);
-    newLst = create_node(movingNb);
+    newLst = create_node_with_int(movingNb);
     newLst->next = *pushTo;
     if (newLst->next)
       newLst->next->previous = newLst;
