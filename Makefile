@@ -6,7 +6,7 @@
 #    By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/26 22:48:41 by rfulop            #+#    #+#              #
-#    Updated: 2017/09/26 22:48:51 by rfulop           ###   ########.fr        #
+#    Updated: 2017/10/03 11:52:54 by rfulop           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 .PHONY: all, clean, fclean, re
@@ -27,11 +27,13 @@ SRC_FILES_CKR = checker.c \
 				inst.c \
 				debug.c
 
+
 SRC_FILES_PS = ps.c \
 				init.c \
 				debug.c \
 				parse.c \
 				inst.c \
+				analyse.c
 
 INC_FILES = pushswap.h
 LIB_FILES = libft.a

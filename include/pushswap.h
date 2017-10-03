@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/01 05:55:10 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/03 12:14:54 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ void rotate_down(t_intlst **lst);
 void double_swap(t_intlst *lstA, t_intlst *lstB);
 void double_rotate_up(t_intlst **lstA, t_intlst **lstB);
 void double_rotate_down(t_intlst **lstA, t_intlst **lstB);
+
+/* Analyse functions */
+int analyse(t_env *env);
 
 
 /*Debug functions*/
