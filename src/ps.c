@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/01 06:01:44 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/03 12:23:51 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,40 @@ void short_stack(t_env *env)
 		++env->nbMoves;
 		if (env->scoreMode)
 			printf("Move %d : ", env->nbMoves);
-		if (env->l_a->next && is_shorted(env->l_a) != size_stack(env->l_a))
+		if (!analyse(env))
 		{
-			cmp = cmp_int(env->l_a->nb, env->l_a->next->nb);
-			if (cmp == A_SMALLER)
+			if (env->l_a->next && is_shorted(env->l_a) != size_stack(env->l_a))
 			{
-				push(&env->l_b, &env->l_a);
-				printf("pb\n");
+				cmp = cmp_int(env->l_a->nb, env->l_a->next->nb);
+				if (cmp == A_SMALLER)
+				{
+					push(&env->l_b, &env->l_a);
+					printf("pb\n");
+				}
+				else
+				{
+					swap(env->l_a);
+					printf("sa\n");
+				}
 			}
-			else
-			{
-				swap(env->l_a);
-				printf("sa\n");
-			}
-		}
-		else if (!env->l_b->next)
-		{
-			push(&env->l_a, &env->l_b);
-			printf("pa\n");
-		}
-		else
-		{
-			cmp = cmp_int(env->l_b->nb, env->l_b->next->nb);
-			if (cmp == A_SMALLER)
-			{
-				swap(env->l_b);
-				printf("sb\n");
-			}
-			else
+			else if (!env->l_b->next)
 			{
 				push(&env->l_a, &env->l_b);
 				printf("pa\n");
+			}
+			else
+			{
+				cmp = cmp_int(env->l_b->nb, env->l_b->next->nb);
+				if (cmp == A_SMALLER)
+				{
+					swap(env->l_b);
+					printf("sb\n");
+				}
+				else
+				{
+					push(&env->l_a, &env->l_b);
+					printf("pa\n");
+				}
 			}
 		}
 		if (env->verboseMode)
@@ -130,7 +133,7 @@ int main(int argc, char **argv)
 	else
 	{
 		env.sizeSort = 0;
-    env.scoreMode = 0;
+		env.scoreMode = 0;
 		env.verboseMode = 0;
 		env.nbMoves = 0;
 		env.nbArgs = parse_args(&env, argv);
@@ -146,7 +149,7 @@ int main(int argc, char **argv)
 		if (env.verboseMode)
 		{
 			printf("Stack in the beginning : ");
-		//	print_lst(env.l_a);
+			//	print_lst(env.l_a);
 			printf("\n");
 		}
 		short_stack(&env);
