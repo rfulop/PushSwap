@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/03 12:14:54 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/29 14:21:02 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct          s_env
   int                   scoreMode;
   int                   nbArgs;
   int                   nbMoves;
+  int                   pivot;
     struct s_intlst     *l_a;
     struct s_intlst     *l_b;
 	struct s_intlst		*beginLstA;

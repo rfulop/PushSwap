@@ -6,9 +6,10 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/03 12:23:51 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/29 16:55:35 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "pushswap.h"
 
@@ -32,54 +33,89 @@ int size_stack(t_intlst *lst)
 
 void short_stack(t_env *env)
 {
-	int cmp;
+	int cur;
+
+	print_lsts(env->l_a, env->l_b);
 	while (!(is_shorted(env->l_a) == env->sizeSort))
 	{
-		++env->nbMoves;
-		if (env->scoreMode)
-			printf("Move %d : ", env->nbMoves);
-		if (!analyse(env))
+		if (env->l_a)
+			cur = env->l_a->nb;
+		printf("loop cur = %d\n", cur);
+		if (!is_shorted(env->l_a))
 		{
-			if (env->l_a->next && is_shorted(env->l_a) != size_stack(env->l_a))
+			if (!env->l_b || cur > env->l_b->nb)
 			{
-				cmp = cmp_int(env->l_a->nb, env->l_a->next->nb);
-				if (cmp == A_SMALLER)
-				{
-					push(&env->l_b, &env->l_a);
-					printf("pb\n");
-				}
-				else
-				{
-					swap(env->l_a);
-					printf("sa\n");
-				}
+				if (env->l_b)
+				printf("env->l_b->nb = %d\n", env->l_b->nb);
+				push(&env->l_b, &env->l_a);
 			}
-			else if (!env->l_b->next)
-			{
-				push(&env->l_a, &env->l_b);
-				printf("pa\n");
-			}
+		// else if (!env->l_a || env->l_a < env->l_b)
 			else
 			{
-				cmp = cmp_int(env->l_b->nb, env->l_b->next->nb);
-				if (cmp == A_SMALLER)
-				{
-					swap(env->l_b);
-					printf("sb\n");
-				}
-				else
-				{
+				rotate_up(&env->l_a);
+				while (env->l_b && env->l_b->nb > cur)
 					push(&env->l_a, &env->l_b);
-					printf("pa\n");
-				}
+					rotate_down(&env->l_a);
+			// push(&env->l_b, &env->l_a);
 			}
 		}
-		if (env->verboseMode)
-			print_lsts(env->l_a, env->l_b);
+		else if (is_shorted(env->l_b))
+			push(&env->l_a, &env->l_b);
+
+	print_lsts(env->l_a, env->l_b);
 	}
-	if (env->scoreMode)
-		printf("List is shorted on %d moves\n", env->nbMoves);
 }
+//
+// void short_stack(t_env *env)
+// {
+// 	int cmp;
+// 	while (!(is_shorted(env->l_a) == env->sizeSort))
+// 	{
+// 		++env->nbMoves;
+// 		if (env->scoreMode)
+// 			printf("Move %d : ", env->nbMoves);
+// 		if (!analyse(env))
+// 		{
+// 			if (env->l_a->next && is_shorted(env->l_a) != size_stack(env->l_a))
+// 			{
+// 				cmp = cmp_int(env->l_a->nb, env->l_a->next->nb);
+// 				if (cmp == A_SMALLER)
+// 				{
+// 					push(&env->l_b, &env->l_a);
+// 					printf("pb\n");
+// 				}
+// 				else
+// 				{
+// 					swap(env->l_a);
+// 					printf("sa\n");
+// 				}
+// 			}
+// 			else if (!env->l_b->next)
+// 			{
+// 				push(&env->l_a, &env->l_b);
+// 				printf("pa\n");
+// 			}
+// 			else
+// 			{
+// 				cmp = cmp_int(env->l_b->nb, env->l_b->next->nb);
+// 				if (cmp == A_SMALLER)
+// 				{
+// 					swap(env->l_b);
+// 					printf("sb\n");
+// 				}
+// 				else
+// 				{
+// 					push(&env->l_a, &env->l_b);
+// 					printf("pa\n");
+// 				}
+// 			}
+// 		}
+// 		if (env->verboseMode)
+// 			print_lsts(env->l_a, env->l_b);
+// 	}
+// 	if (env->scoreMode)
+// 		printf("List is shorted on %d moves\n", env->nbMoves);
+// }
 
 void print_help()
 {
