@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/30 11:28:55 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 12:19:23 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ int check_short(t_env *env)
 		return 0;
 	if (!is_shorted(env->l_a) || !is_rev_shorted(env->l_b))
 		return 0;
-	if (minA > maxB)
-		return 1;
-	else
-		return 0;
-//	return (minA > maxB ? 1 : 0);
+	return (minA > maxB ? 1 : 0);
 }
 
 int size_stack(t_intlst *lst)
@@ -52,15 +48,22 @@ int size_stack(t_intlst *lst)
 
 void idk(t_env *env, int cur)
 {
-	rotate_up(&env->l_a);
-	printf("ra\n");
+	rotate_up(&env->l_a, PS_MODE, STACK_A);
+	if (env->verboseMode)
+		print_lsts(env->l_a, env->l_b);
 	while (env->l_b && env->l_b->nb > cur)
 	{
-		push(&env->l_a, &env->l_b);
-		printf("pa\n");
+		++env->nbMoves;
+		if (env->scoreMode)
+			printf("Move %d : ", env->nbMoves);
+		push(&env->l_a, &env->l_b, PS_MODE, STACK_A);
+		if (env->verboseMode)
+			print_lsts(env->l_a, env->l_b);
 	}
-	rotate_down(&env->l_a);
-	printf("rra\n");
+	++env->nbMoves;
+	if (env->scoreMode)
+		printf("Move %d : ", env->nbMoves);
+	rotate_down(&env->l_a, PS_MODE, STACK_A);
 }
 
 void short_stack(t_env *env)
@@ -70,40 +73,46 @@ void short_stack(t_env *env)
 	print_lsts(env->l_a, env->l_b);
 	while (!(is_shorted(env->l_a) == env->sizeSort))
 	{
+		++env->nbMoves;
+		if (env->scoreMode)
+			printf("Move %d : ", env->nbMoves);
 	 if (!analyse2(env))
 		 {
 			if (((!is_shorted(env->l_a) || !is_rev_shorted(env->l_b))) && !check_short(env) && env->l_a)
 			{
-				if (env->l_a)
-					cur = env->l_a->nb;
-					if (!env->l_b || cur > env->l_b->nb)
-					{
-						printf("pb\n");
-						push(&env->l_b, &env->l_a);
-					}
-					else
-						idk(env, cur);
-				}
-				else if (check_short(env))
+				if (env->l_a && env->l_b && env->l_a->next && env->l_b->next && env->l_a->nb > env->l_a->next->nb && env->l_b->nb < env->l_b->next->nb)
+					double_swap(env->l_a, env->l_b, PS_MODE);
+				else if (env->l_b && env->l_b->next && env->l_b->nb < env->l_b->next->nb)
+					swap(env->l_b, PS_MODE, STACK_B);
+				else if (env->l_a && env->l_a->next && env->l_a->nb > env->l_a->next->nb)
+					swap(env->l_a, PS_MODE, STACK_A);
+				else
 				{
-					push(&env->l_a, &env->l_b);
-					printf("pa\n");
+					if (env->l_a)
+						cur = env->l_a->nb;
+						if (!env->l_b || cur > env->l_b->nb)
+							push(&env->l_b, &env->l_a, PS_MODE, STACK_B);
+						else
+							idk(env, cur);
 				}
+			}
+				else if (check_short(env))
+					push(&env->l_a, &env->l_b, PS_MODE, STACK_A);
 				else
 				{
 					if (env->l_a)
 						cur = env->l_a->nb;
 					if (!env->l_b || cur > env->l_b->nb)
-					{
-						printf("pb\n");
-						push(&env->l_b, &env->l_a);
-					}
+						push(&env->l_b, &env->l_a, PS_MODE, STACK_B);
 					else
 						idk(env, cur);
 				}
 			}
-//			print_lsts(env->l_a, env->l_b);
+			if (env->verboseMode)
+				print_lsts(env->l_a, env->l_b);
 		}
+		if (env->scoreMode)
+			printf("List is shorted on %d moves\n", env->nbMoves);
 	}
 //
 // void short_stack(t_env *env)
@@ -120,34 +129,19 @@ void short_stack(t_env *env)
 // 			{
 // 				cmp = cmp_int(env->l_a->nb, env->l_a->next->nb);
 // 				if (cmp == A_SMALLER)
-// 				{
-// 					push(&env->l_b, &env->l_a);
-// 					printf("pb\n");
-// 				}
+// 					push(&env->l_b, &env->l_a, PS_MODE, STACK_B);
 // 				else
-// 				{
-// 					swap(env->l_a);
-// 					printf("sa\n");
-// 				}
+// 					swap(env->l_a, PS_MODE, STACK_A);
 // 			}
 // 			else if (!env->l_b->next)
-// 			{
-// 				push(&env->l_a, &env->l_b);
-// 				printf("pa\n");
-// 			}
+// 				push(&env->l_a, &env->l_b, PS_MODE, STACK_A);
 // 			else
 // 			{
 // 				cmp = cmp_int(env->l_b->nb, env->l_b->next->nb);
 // 				if (cmp == A_SMALLER)
-// 				{
-// 					swap(env->l_b);
-// 					printf("sb\n");
-// 				}
+// 					swap(env->l_b, PS_MODE, STACK_B);
 // 				else
-// 				{
-// 					push(&env->l_a, &env->l_b);
-// 					printf("pa\n");
-// 				}
+// 					push(&env->l_a, &env->l_b, PS_MODE, STACK_A);
 // 			}
 // 		}
 // 		if (env->verboseMode)

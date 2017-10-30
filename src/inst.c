@@ -6,31 +6,37 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:30 by rfulop            #+#    #+#             */
-/*   Updated: 2017/09/30 18:40:15 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 12:12:16 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void        double_swap(t_intlst *lstA, t_intlst *lstB)
+void        double_swap(t_intlst *lstA, t_intlst *lstB, int mode)
 {
-  swap(lstA);
-  swap(lstB);
+  swap(lstA, mode, STACK_A);
+  swap(lstB, mode, STACK_B);
+  if (mode == PS_MODE)
+    printf("ss\n");
 }
 
-void       double_rotate_up(t_intlst **lstA, t_intlst **lstB)
+void       double_rotate_up(t_intlst **lstA, t_intlst **lstB, int mode)
 {
-  rotate_up(lstA);
-  rotate_up(lstB);
+  rotate_up(lstA, mode, STACK_A);
+  rotate_up(lstB, mode, STACK_B);
+  if (mode == PS_MODE)
+    printf("rr\n");
 }
 
-void      double_rotate_down(t_intlst **lstA, t_intlst **lstB)
+void      double_rotate_down(t_intlst **lstA, t_intlst **lstB, int mode)
 {
-  rotate_down(lstA);
-  rotate_down(lstB);
+  rotate_down(lstA, mode, STACK_A);
+  rotate_down(lstB, mode, STACK_B);
+  if (mode == PS_MODE)
+    printf("rrr\n");
 }
 
-void        rotate_down(t_intlst **lst)
+void        rotate_down(t_intlst **lst, int mode, int stack)
 {
   t_intlst *tmp;
   t_intlst *newLst;
@@ -49,9 +55,13 @@ void        rotate_down(t_intlst **lst)
     *lst = newLst;
     free(tmp);
   }
+  if (mode == PS_MODE && stack == STACK_A)
+    printf("rra\n");
+  if (mode == PS_MODE && stack == STACK_B)
+    printf("rrb\n");
 }
 
-void        rotate_up(t_intlst **lst)
+void        rotate_up(t_intlst **lst, int mode, int stack)
 {
   t_intlst *tmp;
   t_intlst *newLst;
@@ -72,9 +82,13 @@ void        rotate_up(t_intlst **lst)
     newLst->next = NULL;
     tmp->next = newLst;
   }
+  if (mode == PS_MODE && stack == STACK_A)
+    printf("ra\n");
+  if (mode == PS_MODE && stack == STACK_B)
+    printf("rb\n");
 }
 
-void        push(t_intlst **pushTo, t_intlst **pushFrom)
+void        push(t_intlst **pushTo, t_intlst **pushFrom, int mode, int stack)
 {
   t_intlst *tmp;
   t_intlst *newLst;
@@ -95,9 +109,13 @@ void        push(t_intlst **pushTo, t_intlst **pushFrom)
     newLst->previous = NULL;
     *pushTo = newLst;
   }
+  if (mode == PS_MODE && stack == STACK_A)
+      printf("pa\n");
+  if (mode == PS_MODE && stack == STACK_B)
+      printf("pb\n");
 }
 
-void        swap(t_intlst *lst)
+void        swap(t_intlst *lst, int mode, int stack)
 {
     int tmp;
 
@@ -107,4 +125,8 @@ void        swap(t_intlst *lst)
         lst->nb = lst->next->nb;
         lst->next->nb = tmp;
     }
+    if (mode == PS_MODE && stack == STACK_A)
+      printf("sa\n");
+    if (mode == PS_MODE && stack == STACK_B)
+      printf("sb\n");
 }

@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:34 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/30 09:04:51 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 12:11:06 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,27 @@ int is_rev_shorted(t_intlst *lst)
 void read_inst(t_env *env, char *inst)
 {
   if(!(ft_strcmp(inst, "sa")))
-    swap(env->l_a);
+    swap(env->l_a, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "sb")))
-    swap(env->l_b);
+    swap(env->l_b, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "ss")))
-    double_swap(env->l_a, env->l_b);
+    double_swap(env->l_a, env->l_b, CHR_MODE);
   else if(!(ft_strcmp(inst, "pa")))
-    push(&env->l_a, &env->l_b);
+    push(&env->l_a, &env->l_b, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "pb")))
-    push(&env->l_b, &env->l_a);
+    push(&env->l_b, &env->l_a, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "ra")))
-    rotate_up(&env->l_a);
+    rotate_up(&env->l_a, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "rb")))
-    rotate_up(&env->l_b);
+    rotate_up(&env->l_b, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "rr")))
-    double_rotate_up(&env->l_a, &env->l_b);
+    double_rotate_up(&env->l_a, &env->l_b, CHR_MODE);
   else if(!(ft_strcmp(inst, "rra")))
-    rotate_down(&env->l_a);
+    rotate_down(&env->l_a, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "rrb")))
-    rotate_down(&env->l_b);
+    rotate_down(&env->l_b, CHR_MODE, NO_STACK);
   else if(!(ft_strcmp(inst, "rrr")))
-    double_rotate_down(&env->l_a, &env->l_b);
+    double_rotate_down(&env->l_a, &env->l_b, CHR_MODE);
   else
     error();
 }

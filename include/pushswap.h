@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/30 11:28:03 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 12:09:50 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 
 #define A_SMALLER 1
 #define A_BIGGER 0
+#define PS_MODE 1
+#define CHR_MODE 1
+#define STACK_A 1
+#define STACK_B 2
+#define NO_STACK 0
 
 typedef struct          s_intlst
 {
@@ -61,13 +66,13 @@ int is_rev_shorted(t_intlst *lst);
 int split_size(char **str);
 
 /*Instructions functions*/
-void swap(t_intlst *lst);
-void push(t_intlst **stackA, t_intlst **stackB);
-void rotate_up(t_intlst **lst);
-void rotate_down(t_intlst **lst);
-void double_swap(t_intlst *lstA, t_intlst *lstB);
-void double_rotate_up(t_intlst **lstA, t_intlst **lstB);
-void double_rotate_down(t_intlst **lstA, t_intlst **lstB);
+void swap(t_intlst *lst, int mode, int stack);
+void push(t_intlst **stackA, t_intlst **stackB, int mode, int stack);
+void rotate_up(t_intlst **lst, int mode, int stack);
+void rotate_down(t_intlst **lst, int mode, int stack);
+void double_swap(t_intlst *lstA, t_intlst *lstB, int mode);
+void double_rotate_up(t_intlst **lstA, t_intlst **lstB, int mode);
+void double_rotate_down(t_intlst **lstA, t_intlst **lstB, int mode);
 
 /* Analyse functions */
 int analyse(t_env *env);
