@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:34 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/01 04:46:29 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 09:04:51 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,24 @@ int is_shorted(t_intlst *lst)
   while (lst)
   {
     if (lst->nb < tmp)
+      return (0);
+    tmp = lst->nb;
+    lst = lst->next;
+    ++a;
+  }
+  return (a);
+}
+
+int is_rev_shorted(t_intlst *lst)
+{
+  int a;
+  int tmp;
+
+  a = 0;
+  tmp = INT_MAX;
+  while (lst)
+  {
+    if (lst->nb > tmp)
       return (0);
     tmp = lst->nb;
     lst = lst->next;

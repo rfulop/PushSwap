@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/29 14:21:02 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 11:28:03 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void checker_mode(t_env*env);
 void analyse_mode();
 void read_inst(t_env *env, char *inst);
 int is_shorted(t_intlst *lst);
+int is_rev_shorted(t_intlst *lst);
 int split_size(char **str);
 
 /*Instructions functions*/
@@ -70,6 +71,10 @@ void double_rotate_down(t_intlst **lstA, t_intlst **lstB);
 
 /* Analyse functions */
 int analyse(t_env *env);
+int analyse2(t_env *env);
+int intlist_size(t_intlst *begin);
+int check_max(t_intlst *begin);
+int check_min(t_intlst *begin);
 
 
 /*Debug functions*/

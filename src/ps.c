@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/29 16:55:35 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 11:28:55 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 int cmp_int(int a, int b)
 {
 	return (a < b ? A_SMALLER : A_BIGGER);
+}
+
+int check_short(t_env *env)
+{
+	int minA;
+	int maxB;
+
+	minA = check_min(env->l_a);
+	maxB = check_max(env->l_b);
+
+	if (!env->l_a || !env->l_b)
+		return 0;
+	if (!is_shorted(env->l_a) || !is_rev_shorted(env->l_b))
+		return 0;
+	if (minA > maxB)
+		return 1;
+	else
+		return 0;
+//	return (minA > maxB ? 1 : 0);
 }
 
 int size_stack(t_intlst *lst)
@@ -31,6 +50,19 @@ int size_stack(t_intlst *lst)
 	return a;
 }
 
+void idk(t_env *env, int cur)
+{
+	rotate_up(&env->l_a);
+	printf("ra\n");
+	while (env->l_b && env->l_b->nb > cur)
+	{
+		push(&env->l_a, &env->l_b);
+		printf("pa\n");
+	}
+	rotate_down(&env->l_a);
+	printf("rra\n");
+}
+
 void short_stack(t_env *env)
 {
 	int cur;
@@ -38,33 +70,41 @@ void short_stack(t_env *env)
 	print_lsts(env->l_a, env->l_b);
 	while (!(is_shorted(env->l_a) == env->sizeSort))
 	{
-		if (env->l_a)
-			cur = env->l_a->nb;
-		printf("loop cur = %d\n", cur);
-		if (!is_shorted(env->l_a))
-		{
-			if (!env->l_b || cur > env->l_b->nb)
+	 if (!analyse2(env))
+		 {
+			if (((!is_shorted(env->l_a) || !is_rev_shorted(env->l_b))) && !check_short(env) && env->l_a)
 			{
-				if (env->l_b)
-				printf("env->l_b->nb = %d\n", env->l_b->nb);
-				push(&env->l_b, &env->l_a);
-			}
-		// else if (!env->l_a || env->l_a < env->l_b)
-			else
-			{
-				rotate_up(&env->l_a);
-				while (env->l_b && env->l_b->nb > cur)
+				if (env->l_a)
+					cur = env->l_a->nb;
+					if (!env->l_b || cur > env->l_b->nb)
+					{
+						printf("pb\n");
+						push(&env->l_b, &env->l_a);
+					}
+					else
+						idk(env, cur);
+				}
+				else if (check_short(env))
+				{
 					push(&env->l_a, &env->l_b);
-					rotate_down(&env->l_a);
-			// push(&env->l_b, &env->l_a);
+					printf("pa\n");
+				}
+				else
+				{
+					if (env->l_a)
+						cur = env->l_a->nb;
+					if (!env->l_b || cur > env->l_b->nb)
+					{
+						printf("pb\n");
+						push(&env->l_b, &env->l_a);
+					}
+					else
+						idk(env, cur);
+				}
 			}
+//			print_lsts(env->l_a, env->l_b);
 		}
-		else if (is_shorted(env->l_b))
-			push(&env->l_a, &env->l_b);
-
-	print_lsts(env->l_a, env->l_b);
 	}
-}
 //
 // void short_stack(t_env *env)
 // {
