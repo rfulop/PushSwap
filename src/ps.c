@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/30 12:19:23 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 21:44:36 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,112 @@
 int cmp_int(int a, int b)
 {
 	return (a < b ? A_SMALLER : A_BIGGER);
+}
+
+void qs_swap(t_env *env, int a, int b)
+{
+	int i;
+	int tmp;
+
+	if (a > b)
+	{
+		tmp = b;
+		b = a;
+		a = tmp;
+	}
+	if (a == b)
+		return ;
+
+	i = 0;
+	while (i < a + 1)
+	{
+		push(&env->l_b, &env->l_a, PS_MODE, STACK_B);
+		++i;
+	}
+	while (i < b + 1)
+	{
+		rotate_up(&env->l_a, PS_MODE, STACK_A);
+		++i;
+	}
+	push(&env->l_a, &env->l_b, PS_MODE, STACK_A);
+	rotate_down(&env->l_a, PS_MODE, STACK_A);
+	push(&env->l_b, &env->l_a, PS_MODE, STACK_B);
+	i = 0;
+	while (i + 1< b - a)
+	{
+		rotate_down(&env->l_a, PS_MODE, STACK_A);
+		++i;
+	}
+	while (env->l_b)
+		push(&env->l_a, &env->l_b, PS_MODE, STACK_A);
+}
+
+int take_pivot(t_intlst *stack, int n)
+{
+	int i;
+	t_intlst *lst;
+
+	i = 0;
+	lst = stack;
+	while (lst)
+	{
+		if (i == n)
+			return lst->nb;
+		lst = lst->next;
+		++i;
+	}
+	return (0)	;
+}
+
+t_intlst *start_intlist(t_intlst *stack, int n)
+{
+	int i;
+	t_intlst *lst;
+
+	i = 0;
+	lst = stack;
+	while (i < n)
+	{
+		lst = lst->next;
+		++i;
+	}
+	return lst;
+}
+
+int qs_part(t_env *env, int start, int end)
+{
+	int pindex;
+	int pivot;
+	int i;
+	t_intlst *lst;
+
+	pindex = start;
+	pivot = take_pivot(env->l_a, end);
+	i = start;
+	lst = start_intlist(env->l_a, start);
+	while (lst && i < end)
+	{
+		if (lst->nb < pivot)
+		{
+			qs_swap(env, i, pindex);
+			++pindex;
+		}
+		++i;
+		lst = lst->next;
+	}
+	qs_swap(env, end, pindex);
+	return (pindex);
+}
+
+void qs(t_env *env, int start, int end)
+{
+	int pindex;
+
+	if (start >= end)
+		return ;
+	pindex = qs_part(env, start, end);
+	qs(env, start, pindex - 1);
+	qs(env, pindex + 1, end);
 }
 
 int check_short(t_env *env)
@@ -222,7 +328,8 @@ int main(int argc, char **argv)
 			//	print_lst(env.l_a);
 			printf("\n");
 		}
-		short_stack(&env);
-	}
+		//short_stack(&env);
+		qs(&env, 0, intlist_size(env.l_a) - 1);
+		}
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:08 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/30 12:09:50 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/10/30 21:06:04 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #define A_SMALLER 1
 #define A_BIGGER 0
 #define PS_MODE 1
-#define CHR_MODE 1
+#define CHR_MODE 0
 #define STACK_A 1
 #define STACK_B 2
 #define NO_STACK 0
@@ -80,6 +80,7 @@ int analyse2(t_env *env);
 int intlist_size(t_intlst *begin);
 int check_max(t_intlst *begin);
 int check_min(t_intlst *begin);
+t_intlst *last_elem(t_intlst *begin);
 
 
 /*Debug functions*/
