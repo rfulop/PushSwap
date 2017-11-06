@@ -6,7 +6,7 @@
 /*   By: rfulop <rfulop@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 22:48:37 by rfulop            #+#    #+#             */
-/*   Updated: 2017/10/30 21:44:36 by rfulop           ###   ########.fr       */
+/*   Updated: 2017/11/06 05:32:20 by rfulop           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void qs(t_env *env, int start, int end)
 
 	if (start >= end)
 		return ;
+	analyse2(env);
 	pindex = qs_part(env, start, end);
 	qs(env, start, pindex - 1);
 	qs(env, pindex + 1, end);
@@ -328,7 +329,7 @@ int main(int argc, char **argv)
 			//	print_lst(env.l_a);
 			printf("\n");
 		}
-		//short_stack(&env);
+//		short_stack(&env);
 		qs(&env, 0, intlist_size(env.l_a) - 1);
 		}
 	return 0;
